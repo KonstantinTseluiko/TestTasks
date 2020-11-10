@@ -1,5 +1,6 @@
 package com.tsystems.javaschool.tasks.subsequence;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -16,61 +17,87 @@ public class Subsequence {
      * @return <code>true</code> if possible, otherwise <code>false</code>
      */
 
-    public static class Node{
-        int index;
-        int count;
 
-        public Node (int index, int count){
-            this.index= index;
-            this.count = count;
-        }
-        public int getCount() {
-            return count;
-        }
-
-        public void setCount(int count) {
-            this.count = count;
-        }
-    }
     @SuppressWarnings("rawtypes")
     public boolean find(List x, List y) {
-        HashMap<Object, Integer> mapCount = new HashMap<>();
         if (x != null && y != null){
-            for (Object elem : y){
-                if(mapCount.containsKey(elem)){
-                    int newCount = mapCount.get(elem) + 1;
-                    mapCount.put(elem,newCount);
-                }
-                else{
-                    mapCount.put(elem,1);
-                }
-            }
             Iterator iterator = y.iterator();
             while(iterator.hasNext()) {
-                Object next =  iterator.next();
+                Object next = iterator.next();
                 if (!x.contains(next)) {
                     iterator.remove();
-                    if(mapCount.get(next) == 1){
-                        mapCount.remove(next);
-                    }
                 }
             }
-            int pos = 0;
-
-            while (pos < x.size()){
-                Object next =x.get(pos);
-                if ( mapCount.get(next) > 1){
-                    while (mapCount.get(next) > 1){
-                        y.remove(next);
-                    }
-                }
+            List<String> masks = setMask(x, y);
+            if (x.size() == y.size()){
+                return x.equals(y);
             }
-
-            return x.equals(y);
+            else if(x.size() > y.size()){
+                return false;
+            }else{
+                return checkSub(masks);
+            }
         }
-        else{
+        else {
             throw new IllegalArgumentException();
         }
+    }
+
+
+    public List<String> setMask(List alf, List sub){
+        List<String> maskArray = new ArrayList<>();
+        for (int pos = 0; pos < alf.size(); pos++){
+            StringBuilder mask = new StringBuilder();
+            int index = 0;
+            try {
+                List subList = sub.subList(pos, alf.size()+pos);
+                for (Object elem : alf){
+                    if (elem.equals(subList.get(index))){
+                        mask.append("T");
+                    }
+                    else{
+                        mask.append("F");
+                    }
+                    index++;
+                }
+                maskArray.add(mask.toString());
+            }
+            catch (IndexOutOfBoundsException ex){
+                return maskArray;
+            }
+
+        }
+        return maskArray;
+    }
+
+    public boolean checkSub(List<String> maskArr){
+
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < maskArr.get(0).length(); i++){
+            sb.append("T");
+        }
+        String ref = sb.toString();
+
+        for (int index = 0; index < maskArr.size(); index++){
+            StringBuilder check = new StringBuilder();
+            if (index != maskArr.size() - 1){
+                String next = maskArr.get(index+1);
+                String curr = maskArr.get(index);
+                for (int pos = 0; pos < next.length(); pos++){
+                    if (curr.charAt(pos) == 'T' || next.charAt(pos) == 'T' && !(curr.charAt(pos) != 'F'
+                            && next.charAt(pos) != 'F')){
+                        check.append("T");
+                    }
+                    else{
+                        check.append("F");
+                    }
+                }
+                if (ref.equals(check.toString())){
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
 }
