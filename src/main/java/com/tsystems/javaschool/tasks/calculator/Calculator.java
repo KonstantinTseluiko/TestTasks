@@ -133,7 +133,7 @@ public class Calculator {
         }
     }
 
-    public static  float multAndDivide(RulerBuffer ruler) throws CalcException{
+    public static float multAndDivide(RulerBuffer ruler) throws CalcException{
         float value = decider(ruler);
         while (true){
             Lexeme lexeme = ruler.nextDigit();
