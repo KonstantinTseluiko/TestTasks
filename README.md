@@ -12,7 +12,7 @@ The exam includes 3 tasks to be done: [Calculator](/tasks/Calculator.md), [Pyram
 ### Result ###
 
 * Author name : {Konstantin Tseluiko}
-* Codeship : {PUT YOUR CODESHIP BAGDE HERE}
+* Codeship : {https://app.codeship.com/projects/f873a890-20a1-4c88-910b-9e78f482c12e/status?branch=master}
 
 Example of Codeship badge. Please remove the example before you send us the link. 
 [ ![Codeship Status for tschool/javaschoolexam](https://app.codeship.com/projects/a9af8940-d130-0134-89a6-5e8aaaa2a5a2/status?branch=master)](https://app.codeship.com/projects/201451)
